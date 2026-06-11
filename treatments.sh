@@ -2,18 +2,29 @@
 
 extract_knowledge_graph () {
   # Check that parameters are correctly provided
-  if [ $# != 1 ]
+  if [ $# != 2 ]
     then
-      echo "The single parameter is a string holding the documents to load"
+      echo "Two parameters must be provided to this function:"
+      echo "  1. directory where the input documents are located"
+      echo "  2. a string holding all the documents to load (with the flags)"
       return
   fi
+  INPUT_DIR=$1
+  INPUT_FILE_WITH_FLAGS=$2
+  if [[ ! "$INPUT_DIR" = /* ]]; 
+    then
+    echo "The directory argument must be an absolute path."
+    echo "The one provided was $1. Exiting."
+    return
+  fi
+
   docker build -t jejuness:jj_build_knowledge_graph https://github.com/EricBoix/jj_build_knowledge_graph.git#:DockerContext
   docker run --rm --tty --name jj_build_knowledge_graph \
     --network host \
-    -v `pwd`/original_data:/data \
+    -v $1:/data \
     --env-file .env \
     jejuness:jj_build_knowledge_graph extracting_graph_semantic_chuncker.py --input_directory /data \
-    $1
+    $2
 }
 
 dump_knowledge_graph_in_turtle () {
