@@ -1,47 +1,30 @@
-# A set of shell level utilities
+# A set of shell level utilities when working in jejuneness
 
 ## Usage
 
-### Fetch the workflow utilities
+### Fetch and install the utilities
 
 ```bash
-git clone https://github.com/EricBoix/jj_worflow_shell.git
-source jj_worflow_shell/Neo4jDatabase.sh 
-source jj_worflow_shell/treatments.sh 
+git clone https://github.com/EricBoix/jj_workflow_shell.git  # This repository
+source jj_worflow_shell/init.bassh 
 ```
 
-### Configure the scripts (setting environnement variables)
+### Configure the shell utilities
 
-Most of the [treatment methods](./treatments.sh) require a running neo4j database. In order to configure that database define the following parameter values in order to suit your needs
+- either copying the `env-reference` file of this repository to a new `.env` file
+  
+  ```bash
+  cp jj_worflow_shell/env-reference .env
+  ```
 
-```bash
-export NEO4J_PORT=7687
-export NEO4J_USERNAME=neo4j
-export NEO4J_PASSWORD=your_password
-```
+- or extend the .env file encountered in the calling directory
 
-and then transmit that configuration (through a shell environment file) to upcoming treatment processes:
+  ```bash
+  cat jj_worflow_shell/env-reference >> .env
+  ```
+  
+and customize the environment variables values in order to suit your needs.
+Note that some variables are only required by some `jj_<command>`.
+For example the `LLM_*` variables are only required when using [`jj_extract_knowledge_graph`](./treatments.sh).
 
-```bash
-echo "# Neo4j server designation and associated credentials" > .env
-echo "NEO4J_URI=bolt://localhost:$NEO4J_PORT"                >> .env
-echo "NEO4J_USERNAME=$NEO4J_USERNAME"                        >> .env
-echo "NEO4J_PASSWORD=$NEO4J_PASSWORD"                        >> .env
-```
-
-Some [treatment methods](./treatments.sh) also require the setup of an LLM server. When needed, adapt the following designation and credentials
-
-```bash
-LLM_MODEL_URL=https://ollama-ui.pagoda.liris.cnrs.fr/ollama/
-LLM_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-LLM_MODEL_NAME=llama3:70b
-```
-
-and also transmit that configuration (through a shell environment file)
-
-```bash
-echo "### LLM server designation and associate credential" >> .env
-echo "MODEL_URL=$LLM_MODEL_URL"                            >> .env
-echo "API_KEY=$LLM_API_KEY"                                >> .env
-echo "MODEL=$LLM_MODEL_NAME"                               >> .env
-```
+### TBD

@@ -1,6 +1,6 @@
 # !/bin/sh
 
-extract_knowledge_graph () {
+jj_extract_knowledge_graph () {
   # Check that parameters are correctly provided
   if [ $# != 2 ]
     then
@@ -27,7 +27,7 @@ extract_knowledge_graph () {
     $2
 }
 
-dump_knowledge_graph_in_turtle () {
+jj_dump_knowledge_graph_in_turtle () {
   if [ $# != 2 ]
     then
       echo "Two parameters must be provided to this script:"
